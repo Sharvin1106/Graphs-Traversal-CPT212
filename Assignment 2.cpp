@@ -20,6 +20,17 @@ int main()
     g.addEdge(3, 4, 1606.09);
     g.addEdge(3, 0, 9392.12);*/
     g.toString();
+    g.isSC();
+
+    while (!g.isSC()) {
+        cout << "This is not strongly connected graph" << endl;
+        generateRandomEdge(vertices, g, allWeights);
+    }
+
+    cout << "Graph strongly connected graph" << endl << endl;
+    g.toString();
+
+
     while (!g.isCyclic()) {
        cout << "Graph doesn't contain cycle" << endl;
        generateRandomEdge(vertices, g, allWeights);
