@@ -33,6 +33,8 @@ int main()
     }
     cout << "Graph is cyclic" << endl;
     g.toString();
+
+    g.dijkstraDist(allWeights, 1, 3);
    
 }
 
