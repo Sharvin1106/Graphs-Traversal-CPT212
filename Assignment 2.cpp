@@ -81,6 +81,19 @@ int main()
             }
         }
     } while (choice != 8);
+  
+  
+  
+    while (!g.DFS()) {
+       cout << "Graph doesn't contain cycle" << endl;
+       
+       g.generateRandomEdge(allWeights);
+    }
+    cout << "Graph is cyclic" << endl;
+    g.toString();
+
+    g.dijkstraDist(allWeights, 1, 3);
+
    
 }
 

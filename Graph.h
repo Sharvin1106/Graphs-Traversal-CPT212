@@ -27,6 +27,10 @@ public:
 	bool isSC();
 	void getTranspose(Graph&);
 	void DFSUtil(int, bool[]);
+
+	void dijkstraDist(Graph&, int, int);
+	void printShortPath(int[], double[], int, int);
+
 };
 
 #endif

@@ -174,3 +174,125 @@ void Graph::DFSUtil(int v, bool visited[]) {
 
 }
 
+void Graph::dijkstraDist(Graph& all, int s, int d)
+{
+    int path[5], infi = 100000000, origin = s, next_location[5], c = 0, destination = d;
+    double edge[5], dist[5];
+    bool visited[5], reached = false;
+
+    for (int i = 0; i < 5; i++)
+    {
+        visited[i] = false;
+        path[i] = -1;
+        dist[i] = infi;
+        edge[i] = -1;
+        next_location[i] = -1;
+    }
+
+    path[origin] = -1;
+    dist[origin] = 0;
+
+    int current = origin;
+
+    while (reached == false)
+    {
+        int count = 0;
+        visited[current] = true;
+        for (int i = 0; i < 5; i++)
+        {
+            if (adjMatrix[current][i] > 0 && visited[i] != true)
+            {
+                edge[count] = adjMatrix[current][i];
+                next_location[count] = i;
+                count = count + 1;
+
+                double alt = dist[current] + adjMatrix[current][i];
+                if (alt < dist[i])
+                {
+                    dist[i] = alt;
+                    path[i] = current;
+                }
+            }
+        }
+
+        if (count == 0)
+        {
+            cout << "there is no connecting edge\n";
+            cout << current << endl;
+
+            generateRandomEdge(all);
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (adjMatrix[current][i] > 0 && visited[i] != true)
+                {
+                    edge[count] = adjMatrix[current][i];
+                    next_location[count] = i;
+                    count = count + 1;
+
+                    double alt = dist[current] + adjMatrix[current][i];
+                    if (alt < dist[i])
+                    {
+                        dist[i] = alt;
+                        path[i] = current;
+                    }
+                }
+            }
+        }
+
+        double minDist = infi;
+        int index = 0;
+
+        for (int a = 0; a < count; a++)
+        {
+            if (edge[a] < minDist && edge[a] != -1)
+            {
+                minDist = edge[a];
+                index = next_location[a];
+            }
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            edge[i] = -1;
+            next_location[i] = -1;
+        }
+
+        current = index;
+
+        if (current == destination)
+        {
+            reached = true;
+        }
+    }
+    printShortPath(path, dist, origin, destination);
+}
+
+void Graph::printShortPath(int path[], double dist[], int origin, int destination)
+{
+    cout << "Shortest Path From " << origin << " to " << destination << ": ";
+
+    int finding = destination;
+
+    int shortest_path[5], x = 0;
+    while (finding != -1)
+    {
+        shortest_path[x] = finding;
+        finding = path[finding];
+        x = x + 1;
+    }
+
+    for (int y = x - 1; y >= 0; y--)
+    {
+        cout << shortest_path[y];
+
+        if (y != 0)
+        {
+            cout << " -> ";
+        }
+    }
+
+    cout << "\nTotal Distance From Origin: " << dist[destination] << endl;
+}
+
+
