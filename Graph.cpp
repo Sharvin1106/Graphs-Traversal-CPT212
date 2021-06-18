@@ -14,12 +14,10 @@ Graph::Graph(int numVertices) {
 
 void Graph::addEdge(int i, int j, double weight) {
 	adjMatrix[i][j] = weight;
-	//adjMatrix[j][i] = true;
 }
 
 void Graph::removeEdge(int i, int j) {
     adjMatrix[i][j] = 0;
-    //adjMatrix[j][i] = false;
 }
 
 void Graph::toString() {
@@ -114,6 +112,65 @@ void Graph::printCycle(int recursionStack[]) {
 
     }
     cout << visitedIndex << endl;
+
+}
+
+void Graph::generateRandomEdge(Graph& all) {
+    int v1;
+    int v2;
+    srand(time(0));
+    v1 = rand() % numVertices;
+    v2 = rand() % numVertices;
+
+    while (v1 == v2 || isAvailable(v1, v2)) {
+        v1 = rand() % numVertices;
+        v2 = rand() % numVertices;
+    }
+    
+    addEdge(v1, v2, all.getWeight(v1, v2));
+    
+}
+
+void Graph::getTranspose(Graph& g)
+{
+    for (int v = 0; v < numVertices; v++)
+    {
+        for (int i = 0; i < numVertices; ++i)
+        {
+            if (g.adjMatrix[v][i] > 0) {
+                addEdge(i, v, g.adjMatrix[v][i]);
+            }
+        }
+    }
+}
+
+bool Graph::isSC()
+{
+    bool* visited = new bool[numVertices];
+    for (int i = 0; i < numVertices; i++)
+        visited[i] = false;
+
+    DFSUtil(0, visited);
+
+    for (int i = 0; i < numVertices; i++)
+        if (visited[i] == false)
+            return false;
+
+    return true;
+}
+
+void Graph::DFSUtil(int v, bool visited[]) {
+
+    visited[v] = true;
+
+    for (int i = 0; i < numVertices; ++i)
+    {
+        if (adjMatrix[v][i] > 0) {
+            if (!visited[i]) {
+                DFSUtil(i, visited);
+            }
+        }
+    }
 
 }
 
