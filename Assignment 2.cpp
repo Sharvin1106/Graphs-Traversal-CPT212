@@ -20,25 +20,25 @@ int main()
     g.addEdge(3, 4, 1606.09);
     g.addEdge(3, 0, 9392.12);*/
     g.toString();
-    g.isSC();
+    //g.isSC();
 
-    while (!g.isSC()) {
+    /*while (!g.isSC()) {
         cout << "This is not strongly connected graph" << endl;
         generateRandomEdge(vertices, g, allWeights);
     }
 
     cout << "Graph strongly connected graph" << endl << endl;
-    g.toString();
+    g.toString();*/
 
 
-    while (!g.isCyclic()) {
+    while (!g.DFS()) {
        cout << "Graph doesn't contain cycle" << endl;
        generateRandomEdge(vertices, g, allWeights);
     }
     cout << "Graph is cyclic" << endl;
     g.toString();
     //.toString();
-    cout << g.isSC() << endl;
+    //cout << g.isSC() << endl;
 }
 
 void initializeGraph(Graph &g) {
@@ -55,8 +55,8 @@ void generateRandomEdge(int vertex, Graph &g, Graph &all) {
     int v1;
     int v2;
     srand(time(0));
-    v1 = rand() % vertex + 1;
-    v2 = rand() % vertex + 1;
+    v1 = rand() % vertex;
+    v2 = rand() % vertex;
     
     while (v1 == v2 || g.isAvailable(v1, v2)) {
         v1 = rand() % vertex;
@@ -64,6 +64,7 @@ void generateRandomEdge(int vertex, Graph &g, Graph &all) {
     }
     //cout << all.getWeight(v1, v2) << endl;
     g.addEdge(v1, v2, all.getWeight(v1, v2));
+    //cout << "Added edge" << v1 << " " << v2 << endl;
 }
 
 void initializeWeights(Graph &all, int vertices) {

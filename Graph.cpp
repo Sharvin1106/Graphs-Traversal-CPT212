@@ -9,6 +9,7 @@ Graph::Graph(int numVertices) {
             adjMatrix[i][j] = 0;
         
     }
+    visitedNum = 0;
 }
 
 void Graph::addEdge(int i, int j, double weight) {
@@ -31,54 +32,46 @@ void Graph::toString() {
     }
 }
 
-bool Graph::isCyclic() {
-    bool* visited = new bool[numVertices];
-    bool* recStack = new bool[numVertices];
-    bool cycleDetected = false;
+bool Graph::DFS() {
+    int* visited = new int[numVertices];
+    
+    
     for (int i = 0; i < numVertices; i++) {
-        visited[i] = false;
-        recStack[i] = false;
+        visited[i] = 0;
     }
 
-    for (int i = 0; i < numVertices; i++) {
-        if (isCyclicUtil(i, visited, recStack)) {
-            //printCycle(recStack);
-            cycleDetected = true;
+    for (int i = 0; i < numVertices; i++)
+        if (cycleDetectionDFS(i, visited)) {
+            printCycle(visited);
+            return true;
         }
-    }
-
-    if (cycleDetected)
-        return true;
-    else
-        return false;
+    return false;
 }
 
-bool Graph::isCyclicUtil(int v, bool visited[], bool* recStack)
+bool Graph::cycleDetectionDFS(int v, int visited[])
 {
-    if (visited[v] == false)
+    if (visited[v] == 0)
     {
-        // Mark the current node as visited and part of recursion stack
-        visited[v] = true;
-        recStack[v] = true;
-
-        // Recur for all the vertices adjacent to this vertex
+        visited[v] = visitedNum++;
         
-        for (int i = 0; i < numVertices; ++i)
+        for (int i = 0; i < numVertices; i++)
         {
             if (adjMatrix[v][i] > 0) {
-                if (!visited[i] && isCyclicUtil(i, visited, recStack)) {
-                    //printCycle(recStack);
+                if (!visited[i] && cycleDetectionDFS(i, visited)) {
                     return true;
                 }
-                else if (recStack[i]) {
-                    printCycle(recStack);
+                else if (visited[i]>0) {
+                    visited[i] = -1;
                     return true;
+                   
                 }
             }
         }
 
     }
-    recStack[v] = false;  // remove the vertex from recursion stack
+   
+    visited[v] = 0; 
+    
     return false;
 }
 
@@ -102,71 +95,25 @@ Graph::~Graph() {
 
 }
 
-void Graph::printCycle(bool recursionStack[]) {
+void Graph::printCycle(int recursionStack[]) {
     cout << "\n";
+    int visitedIndex = 0;
     for (int i = 0; i < numVertices; i++) {
-        if (recursionStack[i]) {
-            if (i != numVertices - 1)
-                cout << i << "--> ";
-            else
-                cout << i << endl;
+        if (recursionStack[i] != -1) {
+            continue;
+        }
+        else {
+            visitedIndex = i;
         }
     }
-    cout << "\n";
-}
 
-void Graph::DFSUtil(int v, bool visited[]) {
-
-    visited[v] = true;
-
-    for (int i = 0; i < numVertices; ++i)
-    {
-        //cout << adjMatrix[v][i] << endl;
-        //cout << v << " " << i << endl;
-        if (adjMatrix[v][i] > 0) {
-            if (!visited[i]) {
-                DFSUtil(i, visited);
-            }
-
+    for (int i = visitedIndex; i < numVertices; i++) {
+        if (recursionStack[i] > 0 || recursionStack[i] == -1) {
+            cout << i << "--> ";
         }
+
     }
+    cout << visitedIndex << endl;
+
 }
 
-void Graph::getTranspose()
-{
-    for (int v = 0; v < numVertices; v++)
-    {
-
-        for (int i = 0; i < numVertices; ++i)
-        {
-            if (adjMatrix[v][i] > 0) {
-                cout << v << " " << i << " " << adjMatrix[v][i] << endl;
-                addEdge(i, v, adjMatrix[v][i]);
-            }
-        }
-    }
-    //return g;
-}
-
-bool Graph::isSC()
-{
-    bool* visited = new bool[numVertices];
-    for (int i = 0; i < numVertices; i++)
-        visited[i] = false;
-    DFSUtil(0, visited);
-
-    for (int i = 0; i < numVertices; i++)
-        if (visited[i] == false)
-            return false;
-
-    Graph gr(numVertices);
-    gr.getTranspose();
-    for (int i = 0; i < numVertices; i++)
-        visited[i] = false;
-    gr.DFSUtil(0, visited);
-    for (int i = 0; i < numVertices; i++)
-        if (visited[i] == false)
-            return false;
-
-    return true;
-}
