@@ -26,7 +26,7 @@ int main()
         MainMenu();
         cin >> choice;
         //Validation for choice
-        while (choice < 1 || choice > 7) {
+        while (choice < 1 || choice > 8) {
             cout << "Invalid input." << endl;
             cout << "Re-enter your choice." << endl;
             cin >> choice;
@@ -78,23 +78,56 @@ int main()
                 cin >> origin;
                 cout << "Please enter your arrival point" << endl;
                 cin >> destination;
+                cout << "Your shortest path" << endl;
+                g.dijkstraDist(allWeights, origin, destination);
+                cin.get();
+                cin.get();
+            }
+            else if (choice == 5) {
+                char selection;
+                cout << "Would you like to reset the graph?" << endl;
+                cin >> selection;
+                if (selection == 'Y' || selection == 'y') {
+                    initializeGraph(g);
+                }
+                cin.get();
+                cin.get();
+            }
+            else if (choice == 6) {
+                int v1, v2;
+                cout << "Please specify the first vertex" << endl;
+                cin >> v1;
+                cout << "Please specify the second vertex" << endl;
+                cin >> v2;
+                if (g.isAvailable(v1, v2)) {
+                    cout << "The edge already exists" << endl;
+                }
+                else {
+                    g.addEdge(v1, v2, allWeights.getWeight(v1, v2));
+                    cout << "New edge added" << endl;
+                }
+                cin.get();
+                cin.get();
+            }
+            else if (choice == 7) {
+                int v1, v2;
+                cout << "Please specify the first vertex" << endl;
+                cin >> v1;
+                cout << "Please specify the second vertex" << endl;
+                cin >> v2;
+                if (g.isAvailable(v1, v2)) {
+                    g.removeEdge(v1, v2);
+                    cout << "Edge removed" << endl;
+                }
+                else {
+                    cout << "No edge exists" << endl;
+                }
+                cin.get();
+                cin.get();
             }
         }
     } while (choice != 8);
-  
-  
-  
-    while (!g.DFS()) {
-       cout << "Graph doesn't contain cycle" << endl;
-       
-       g.generateRandomEdge(allWeights);
-    }
-    cout << "Graph is cyclic" << endl;
-    g.toString();
 
-    g.dijkstraDist(allWeights, 1, 3);
-
-   
 }
 
 void initializeGraph(Graph &g) {
@@ -106,7 +139,6 @@ void initializeGraph(Graph &g) {
     
 
 }
-
 
 void initializeWeights(Graph &all, int vertices) {
     fstream weightFile;
