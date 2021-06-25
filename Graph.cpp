@@ -12,6 +12,18 @@ Graph::Graph(int numVertices) {
     visitedNum = 0;
 }
 
+void Graph::zero(int numVertices) {
+    this->numVertices = numVertices;
+    adjMatrix = new double* [numVertices];
+    for (int i = 0; i < numVertices; i++) {
+        adjMatrix[i] = new double[numVertices];
+        for (int j = 0; j < numVertices; j++)
+            adjMatrix[i][j] = 0;
+
+    }
+    visitedNum = 0;
+}
+
 void Graph::addEdge(int i, int j, double weight) {
 	adjMatrix[i][j] = weight;
 }
@@ -198,30 +210,9 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
     {
         int count = 0;
         visited[current] = true;
-        for (int i = 0; i < 5; i++)
+
+        while (count == 0)
         {
-            if (adjMatrix[current][i] > 0 && visited[i] != true)
-            {
-                edge[count] = adjMatrix[current][i];
-                next_location[count] = i;
-                count = count + 1;
-
-                double alt = dist[current] + adjMatrix[current][i];
-                if (alt < dist[i])
-                {
-                    dist[i] = alt;
-                    path[i] = current;
-                }
-            }
-        }
-
-        if (count == 0)
-        {
-            cout << "there is no connecting edge\n";
-            cout << current << endl;
-
-            generateRandomEdge(all);
-
             for (int i = 0; i < 5; i++)
             {
                 if (adjMatrix[current][i] > 0 && visited[i] != true)
@@ -237,6 +228,11 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
                         path[i] = current;
                     }
                 }
+            }
+
+            if (count == 0)
+            {
+                generateRandomEdge(all);
             }
         }
 
