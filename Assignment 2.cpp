@@ -46,11 +46,13 @@ int main()
                     cin >> selection;
                     if (selection == 'Y' || selection == 'y') {
                         g.generateRandomEdge(allWeights);  //if yes, generate random edge
-                        g.toString();  //display graph
+                        //g.toString();  //display graph
                     }
                     else {
-                        break;
+                        cout << "Graph is strongly connected now, Press enter to continue" << endl;
                         g.toString(); // display graph
+                        break;
+                       
                     }
                 }
 
