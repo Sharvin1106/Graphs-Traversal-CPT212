@@ -12,15 +12,15 @@ Graph::Graph(int numVertices) {
     visitedNum = 0;
 }
 
-void Graph::zero(int numVertices) {
+void Graph::reset(int numVertices) {
     this->numVertices = numVertices;
     adjMatrix = new double* [numVertices];
     for (int i = 0; i < numVertices; i++) {
         adjMatrix[i] = new double[numVertices];
         for (int j = 0; j < numVertices; j++)
             adjMatrix[i][j] = 0;
-
     }
+    
     visitedNum = 0;
 }
 
@@ -33,6 +33,7 @@ void Graph::removeEdge(int i, int j) {
 }
 
 void Graph::toString() {
+    //To print the resulting graph
     cout << "\t0" << "\t1" << "\t2" << "\t3" << "\t4" << endl;
     for (int i = 0; i < numVertices; i++) {
         cout << i << " : \t";
@@ -43,20 +44,22 @@ void Graph::toString() {
 }
 
 bool Graph::DFS() {
-    int* visited = new int[numVertices];
     
-    
+    int *visited = new int[numVertices];
+   
     for (int i = 0; i < numVertices; i++) {
         visited[i] = 0;
+        
     }
-
-    for (int i = 0; i < numVertices; i++)
+    //To perform DFS from different nodes
+    for (int i = 0; i < numVertices; i++) {
         if (cycleDetectionDFS(i, visited)) {
             cout << "\nA cycle has been detected" << endl;
             cout << "\nThe cycle that has been found" << endl;
             printCycle(visited);
             return true;
         }
+    }
     return false;
 }
 
@@ -65,14 +68,15 @@ bool Graph::cycleDetectionDFS(int v, int visited[])
     if (visited[v] == 0)
     {
         visited[v] = visitedNum++;
-        
+
         for (int i = 0; i < numVertices; i++)
         {
             if (adjMatrix[v][i] > 0) {
                 if (!(visited[i] > 0) && cycleDetectionDFS(i, visited)) {
                     return true;
                 }
-                else if (visited[i]>0) {
+                //Part where we detect the cycle and mark the node as visited
+                else if (visited[i]>0 && i != v) {
                     visited[i] = -1;
                     return true;
                 }
@@ -80,12 +84,13 @@ bool Graph::cycleDetectionDFS(int v, int visited[])
         }
 
     }
- 
+    //If no adjacent vertex at all or there is no adjacent vertex that have been already visited
     visited[v] = 0; 
     return false;
 }
 
 bool Graph::isAvailable(int v1, int v2) {
+    //Check if an edge available 
     if (adjMatrix[v1][v2] > 0) {
         return true;
     }
@@ -95,6 +100,7 @@ bool Graph::isAvailable(int v1, int v2) {
 }
 
 double Graph::getWeight(int v1, int v2) {
+    //Get the weight between any two vertices
     return adjMatrix[v1][v2];
 }
 
@@ -108,15 +114,32 @@ Graph::~Graph() {
 void Graph::printCycle(int recursionStack[]) {
     cout << "\n";
     int visitedIndex = 0;
+    int lastCycleIndex = 0;
+
+    //To get the last vertex in the cycle
+    for (int i = 0; i < numVertices; i++) {
+        if (recursionStack[i] > 0 || recursionStack[i] == -1) {
+            lastCycleIndex = i;
+        }
+    }
+    //To get the first vertex in the cycle
     for (int i = 0; i < numVertices; i++) {
         if (recursionStack[i] != -1) {
+
             continue;
         }
         else {
-            visitedIndex = i;
+            //Check if we can make the first vertex in the graph as the first vertex in the cycle, 
+            //if the second vertex in the graph is the first vertex in the cycle
+            if (i - 1 == 0 && recursionStack[i-1] > 0 && adjMatrix[lastCycleIndex][i-1] > 0) {
+                visitedIndex = i -1;
+            }
+            else {
+                visitedIndex = i;
+            }
         }
     }
-
+    //Printing the cycle
     for (int i = visitedIndex; i < numVertices; i++) {
         if (recursionStack[i] > 0 || recursionStack[i] == -1) {
             cout << i << "--> ";

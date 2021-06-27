@@ -71,6 +71,7 @@ int main()
                 }
                 cin.get();
                 cin.get();
+               
             }
             else if (choice == 4) {
                 int origin=0, destination=0;
@@ -88,7 +89,7 @@ int main()
                 cout << "Would you like to reset the graph?" << endl;
                 cin >> selection;
                 if (selection == 'Y' || selection == 'y') {
-                    g.zero(5);
+                    g.reset(5);
                     initializeGraph(g);
                 }
                 cin.get();
@@ -142,6 +143,8 @@ void initializeGraph(Graph &g) {
 }
 
 void initializeWeights(Graph &all, int vertices) {
+    //We are trying to read the weights between all the vertices in the graph
+    //Into the all weights graph 
     fstream weightFile;
     double weight;
     weightFile.open("weights.txt", ios::in);

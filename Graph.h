@@ -31,7 +31,7 @@ public:
 	void dijkstraDist(Graph&, int, int);
 	void printShortPath(int[], double[], int, int);
 
-	void zero(int);
+	void reset(int);
 };
 
 #endif
