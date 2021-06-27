@@ -217,24 +217,24 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
 
     for (int i = 0; i < 5; i++)
     {
-        visited[i] = false;
-        path[i] = -1;
-        dist[i] = infi;
-        edge[i] = -1;
-        next_location[i] = -1;
+        visited[i] = false; //check whther a vertex is visited or not yet
+        path[i] = -1; //used to hold path of each vertex
+        dist[i] = infi; //used to hold distance of each vertex
+        edge[i] = -1; //used to hold weight of edges
+        next_location[i] = -1; //used to hold vertex that are adjacent to the current vertex
     }
 
-    path[origin] = -1;
+    path[origin] = -1;//origin's path and distance value
     dist[origin] = 0;
 
-    int current = origin;
+    int current = origin; //current will become origin as path starts there
 
-    while (reached == false)
+    while (reached == false) //while loop will keep looping until destincation is reached where reached becomes true.
     {
         int count = 0;
-        visited[current] = true;
+        visited[current] = true; //current will become visited so that it will not be selected again
 
-        while (count == 0)
+        while (count == 0) //loop to find edges for a particular vertex
         {
             for (int i = 0; i < 5; i++)
             {
@@ -244,7 +244,7 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
                     next_location[count] = i;
                     count = count + 1;
 
-                    double alt = dist[current] + adjMatrix[current][i];
+                    double alt = dist[current] + adjMatrix[current][i]; //relaxation procedure 
                     if (alt < dist[i])
                     {
                         dist[i] = alt;
@@ -253,16 +253,16 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
                 }
             }
 
-            if (count == 0)
+            if (count == 0) //if vertex have no edges create random edges
             {
                 generateRandomEdge(all);
             }
         }
 
-        double minDist = infi;
-        int index = 0;
+        double minDist = infi; //minimum distance from current
+        int index = 0; //value to hold adjacent vertex
 
-        for (int a = 0; a < count; a++)
+        for (int a = 0; a < count; a++) //loop to find shortest edge in order to determine next vertex.
         {
             if (edge[a] < minDist && edge[a] != -1)
             {
@@ -271,37 +271,37 @@ void Graph::dijkstraDist(Graph& all, int s, int d)
             }
         }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++) //loop to reset values of some array that will be used again for next loopug
         {
             edge[i] = -1;
             next_location[i] = -1;
         }
 
-        current = index;
+        current = index; //current will now be index which is the next chosen vetex
 
-        if (current == destination)
+        if (current == destination) //checks whether destonation is reached
         {
             reached = true;
         }
     }
-    printShortPath(path, dist, origin, destination);
+    printShortPath(path, dist, origin, destination); //call function to print shortest path
 }
 
 void Graph::printShortPath(int path[], double dist[], int origin, int destination)
 {
-    cout << "Shortest Path From " << origin << " to " << destination << ": ";
+    cout << "Shortest Path From " << origin << " to " << destination << ": "; //print origin and destination
 
     int finding = destination;
 
     int shortest_path[5], x = 0;
-    while (finding != -1)
+    while (finding != -1) //backtrack and find path staring from destination
     {
         shortest_path[x] = finding;
         finding = path[finding];
         x = x + 1;
     }
 
-    for (int y = x - 1; y >= 0; y--)
+    for (int y = x - 1; y >= 0; y--) //print shortest_path array in reverse order staring from orign to destonation
     {
         cout << shortest_path[y];
 
@@ -311,7 +311,7 @@ void Graph::printShortPath(int path[], double dist[], int origin, int destinatio
         }
     }
 
-    cout << "\nTotal Distance From Origin: " << dist[destination] << endl;
+    cout << "\nTotal Distance From Origin: " << dist[destination] << endl;//print total distance form destination
 }
 
 
