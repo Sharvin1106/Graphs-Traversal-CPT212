@@ -150,7 +150,7 @@ void Graph::getTranspose(Graph& g)
         for (int i = 0; i < numVertices; ++i)
         {
             if (g.adjMatrix[v][i] > 0) {
-                addEdge(i, v, g.adjMatrix[v][i]);
+                addEdge(i, v, g.adjMatrix[v][i]);    //add edge of the inverse graph
             }
         }
     }
@@ -160,9 +160,9 @@ bool Graph::isSC()
 {
     bool* visited = new bool[numVertices];
     for (int i = 0; i < numVertices; i++)
-        visited[i] = false;
+        visited[i] = false; //
 
-    DFSUtil(0, visited);
+    DFSUtil(0, visited); //call DFSUtil function
 
     for (int i = 0; i < numVertices; i++)
         if (visited[i] == false)

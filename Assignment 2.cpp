@@ -39,19 +39,22 @@ int main()
                 cin.get();
             }
             else if (choice == 2) {
-                while (!checkStrong(g, vertices)) {
+                while (!checkStrong(g, vertices)) {  // repeat until the graph is strongly connected
                     char selection;
-                    cout << "The graph is not strong connected " << endl;
-                    cout << "Would you like to make it strong?" << endl;
+                    cout << "The graph is not strong connected " << endl; 
+                    cout << "Would you like to make it strong?" << endl; //ask whether
                     cin >> selection;
                     if (selection == 'Y' || selection == 'y') {
                         g.generateRandomEdge(allWeights);
+                        g.toString();
                     }
                     else {
                         break;
+                        g.toString();
                     }
                 }
-                g.toString();
+
+
                 cin.get();
                 cin.get();
                 
@@ -174,16 +177,16 @@ void MainMenu() {
 
 }
 
-bool checkStrong(Graph& g, int V) {
-    Graph inverse(V);
+bool checkStrong(Graph& g, int V) { 
+    Graph inverse(V); // object for inverse graph
 
-    if (g.isSC()) {
-        inverse.getTranspose(g);
-        if (inverse.isSC()) {
-            return true;
+    if (g.isSC()) { //check whether the graph is strongly connected
+        inverse.getTranspose(g);   //get the transpose of the graph
+        if (inverse.isSC()) { //check whether the transposed graph is strongly connected
+            return true;  
         }
         else {
-            return false;
+            return false; 
         }
     }
     return false;
