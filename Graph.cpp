@@ -40,6 +40,7 @@ bool Graph::DFS() {
 
     for (int i = 0; i < numVertices; i++)
         if (cycleDetectionDFS(i, visited)) {
+            cout << "\nA cycle has been detected" << endl;
             cout << "\nThe cycle that has been found" << endl;
             printCycle(visited);
             return true;
