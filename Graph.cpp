@@ -150,7 +150,7 @@ void Graph::getTranspose(Graph& g)
         for (int i = 0; i < numVertices; ++i)
         {
             if (g.adjMatrix[v][i] > 0) {
-                addEdge(i, v, g.adjMatrix[v][i]);    //add edge of the inverse graph
+                addEdge(i, v, g.adjMatrix[v][i]);
             }
         }
     }
@@ -160,27 +160,27 @@ bool Graph::isSC()
 {
     bool* visited = new bool[numVertices];
     for (int i = 0; i < numVertices; i++)
-        visited[i] = false; // declare visited
+        visited[i] = false;
 
-    DFSUtil(0, visited); //call DFSUtil function
+    DFSUtil(0, visited);
 
     for (int i = 0; i < numVertices; i++)
         if (visited[i] == false)
-            return false;   //return false if any of the vertices is not visited
+            return false;
 
-    return true; //return true if all vertices is visited
+    return true;
 }
 
 
 
 void Graph::DFSUtil(int v, bool visited[]) {
 
-    visited[v] = true;  // set the first vertex of the graph as visited
+    visited[v] = true;
 
     for (int i = 0; i < numVertices; ++i)
     {
         if (adjMatrix[v][i] > 0) {
-            if (!visited[i]) {   //if any of the vertices is not visited, call thefunction again
+            if (!visited[i]) {
                 DFSUtil(i, visited);
             }
         }
