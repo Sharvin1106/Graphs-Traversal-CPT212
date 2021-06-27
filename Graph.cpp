@@ -160,27 +160,27 @@ bool Graph::isSC()
 {
     bool* visited = new bool[numVertices];
     for (int i = 0; i < numVertices; i++)
-        visited[i] = false; //
+        visited[i] = false; // declare visited
 
     DFSUtil(0, visited); //call DFSUtil function
 
     for (int i = 0; i < numVertices; i++)
         if (visited[i] == false)
-            return false;
+            return false;   //return false if any of the vertices is not visited
 
-    return true;
+    return true; //return true if all vertices is visited
 }
 
 
 
 void Graph::DFSUtil(int v, bool visited[]) {
 
-    visited[v] = true;
+    visited[v] = true;  // set the first vertex of the graph as visited
 
     for (int i = 0; i < numVertices; ++i)
     {
         if (adjMatrix[v][i] > 0) {
-            if (!visited[i]) {
+            if (!visited[i]) {   //if any of the vertices is not visited, call thefunction again
                 DFSUtil(i, visited);
             }
         }

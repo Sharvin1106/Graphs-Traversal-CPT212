@@ -42,15 +42,15 @@ int main()
                 while (!checkStrong(g, vertices)) {  // repeat until the graph is strongly connected
                     char selection;
                     cout << "The graph is not strong connected " << endl; 
-                    cout << "Would you like to make it strong?" << endl; //ask whether
+                    cout << "Would you like to make it strong?" << endl; //ask whether the user wants to make the graph to be strongly connected.
                     cin >> selection;
                     if (selection == 'Y' || selection == 'y') {
-                        g.generateRandomEdge(allWeights);
-                        g.toString();
+                        g.generateRandomEdge(allWeights);  //if yes, generate random edge
+                        g.toString();  //display graph
                     }
                     else {
                         break;
-                        g.toString();
+                        g.toString(); // display graph
                     }
                 }
 
