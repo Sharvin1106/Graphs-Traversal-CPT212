@@ -88,6 +88,7 @@ int main()
                 cout << "Would you like to reset the graph?" << endl;
                 cin >> selection;
                 if (selection == 'Y' || selection == 'y') {
+                    g.zero(5);
                     initializeGraph(g);
                 }
                 cin.get();
