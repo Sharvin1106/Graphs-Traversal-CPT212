@@ -40,6 +40,7 @@ bool Graph::DFS() {
 
     for (int i = 0; i < numVertices; i++)
         if (cycleDetectionDFS(i, visited)) {
+            cout << "\nThe cycle that has been found" << endl;
             printCycle(visited);
             return true;
         }
@@ -55,21 +56,19 @@ bool Graph::cycleDetectionDFS(int v, int visited[])
         for (int i = 0; i < numVertices; i++)
         {
             if (adjMatrix[v][i] > 0) {
-                if (!visited[i] && cycleDetectionDFS(i, visited)) {
+                if (!(visited[i] > 0) && cycleDetectionDFS(i, visited)) {
                     return true;
                 }
                 else if (visited[i]>0) {
                     visited[i] = -1;
                     return true;
-                   
                 }
             }
         }
 
     }
-   
+ 
     visited[v] = 0; 
-    
     return false;
 }
 

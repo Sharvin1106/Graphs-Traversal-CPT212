@@ -73,7 +73,7 @@ int main()
                 cin.get();
             }
             else if (choice == 4) {
-                int origin, destination;
+                int origin=0, destination=0;
                 cout << "Please enter your departure point" << endl;
                 cin >> origin;
                 cout << "Please enter your arrival point" << endl;
